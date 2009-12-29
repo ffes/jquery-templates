@@ -206,10 +206,8 @@
 	 * Save a reference in this local scope to the original methods which we're 
 	 * going to overload.
 	 **/
-	var $_old = {
-	    domManip: $.fn.domManip,
-	    text: $.fn.text,
-	    html: $.fn.html
+	$.template.oldfn = {
+		domManip: $.fn.domManip
 	};
 
 	/**
@@ -225,31 +223,22 @@
 		}
 
 		// Call the original method
-		var r = $_old.domManip.apply(this, arguments);
+		var r = $.template.oldfn.domManip.apply(this, arguments);
 
 		return r;
 	};
 
-    /**
-     * Overwrite the html() method
-     */
-	$.fn.html = function( value , o ) {
-	    if (value && value.isTemplate) var value = value.apply( o );
-
-		var r = $_old.html.apply(this, [value]);
-
-		return r;
-	};
 	
-	/**
-	 * Overwrite the text() method
-	 */
-	$.fn.text = function( value , o ) {
-	    if (value && value.isTemplate) var value = value.apply( o );
+	$.each(["html", "text", "replaceWith"], function(i, name){
+		$.template.oldfn[name] = $.fn[name];
 
-		var r = $_old.text.apply(this, [value]);
+		$.fn[name] = function( value , o ) {
+		    if (value && value.isTemplate) var value = value.apply( o );
 
-		return r;
-	};
+			var r = $.template.oldfn[name].apply(this, [value]);
+
+			return r;
+		};
+	});
 
 })(jQuery);
