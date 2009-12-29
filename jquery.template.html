@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="./jquery.template.js"></script>
+        <script type="text/javascript">
+
+        $(document).ready(function() {
+			var a = "Hello ${name}, how are you doing ${day}?  This is an example of a ${long:substr(0,30)}.";
+
+			$('.text').text(a);
+			$('.template').html( $.template(a) , { 
+				name: 'stan', 
+				day: 'today', 
+				long: 'really, really, really, really long string that will get truncated by the substring helper' 
+			});
+			
+			var b = "<p>Testing ${fn}...</p>";
+
+			$('#append').append( $.template(b), { fn: 'append' });
+			$(b, { fn: 'appendTo' }).appendTo('#appendTo');
+			$('#prepend').prepend( $.template(b), { fn: 'prepend' });
+			$('#before').before( $.template(b), { fn: 'before' });
+			$('#after').after( $.template(b), { fn: 'after' });
+			$('#replaceWith').replaceWith( $.template(b), { fn: 'replaceWith' });
+//			$('#wrapAll').wrap( $.template(b), { fn: 'wrapAll' });
+//			$('#wrapAll').wrapAll( $.template(b), { fn: 'wrapAll' });
+//			$('#wrapInner').wrapInner( $.template(b), { fn: 'wrapInner' });
+
+		});
+
+        </script>
+    </head>
+    <body>
+		<h3>Simple Example</h3>
+
+		<div><strong>The template text:</strong></div>
+		<div class="text"></div>
+		<div><strong>The template after it's magic:</strong></div>
+		<div class="template"></div>
+		<div><em>(Yes, that was just done by the plugin!)</em></div>
+		</div>
+		
+		<h3>jQuery Manipulation Tests</h3>
+		
+		<div id="append"></div>
+		<div id="appendTo"></div>
+		<div id="prepend"></div>
+		<div id="before"></div>
+		<div id="after"></div>
+		<div id="replaceWith"></div>
+		<div id="wrap"></div>
+		<div id="wrapAll"></div>
+		<div id="wrapInner"></div>
+		
+		<div id="replaceWith"></div>
+
+    </body>
+</html>
